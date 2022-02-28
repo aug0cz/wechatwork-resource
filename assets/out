@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+# coding: utf-8
+# help:
+# resource-type:
+# - name: wechat-work
+#   type: registry-image
+#   source:
+#     repository: aug0cz/wechatwork-resource
+#     tag: latest
+# resources:
+# - name: notify
+#   type: wechat-work
+#   source:
+#     key: ((token))
+  
+    
+
+import sys
+import json
+import requests
+
+data = sys.stdin.read()
+
+log = sys.stderr.write
+
+# source file
+source = sys.argv[1]
+
+# read payload from stdin
+# example
+# {
+#   "params": {
+#     "branch": "develop",
+#     "repo": "some-repo"
+#   },
+#   "source": {
+#     "uri": "git@...",
+#     "private_key": "..."
+#   }
+# }
+payload = json.loads(data)
+payloadSource = payload["source"]
+payloadParams = payload["params"]
+
+host_addr = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" + payloadSource['key']
+
+
+data = {
+    "msgtype": "markdown",
+    "markdown": {
+        "content": payloadParams["content"]
+    }
+}
+headers = {
+    'Content-Type': "application/json"
+}
+requests.post(host_addr, data, headers=headers)
+
+# output
+print(json.dumps({"version":{}}))
+
