@@ -22,7 +22,7 @@ import requests
 data = sys.stdin.read()
 
 log = sys.stderr.write
-newline = sys.stderr.write('\n')
+newline = lambda:sys.stderr.write('\n')
 
 # source file
 source = sys.argv[1]
