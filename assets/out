@@ -22,6 +22,7 @@ import requests
 data = sys.stdin.read()
 
 log = sys.stderr.write
+newline = sys.stderr.write('\n')
 
 # source file
 source = sys.argv[1]
@@ -39,6 +40,9 @@ source = sys.argv[1]
 #   }
 # }
 payload = json.loads(data)
+log(json.dumps(payload))
+newline()
+
 payloadSource = payload["source"]
 payloadParams = payload["params"]
 
@@ -54,8 +58,10 @@ data = {
 headers = {
     'Content-Type': "application/json"
 }
-requests.post(host_addr, data, headers=headers)
 
+res = requests.post(host_addr, data, headers=headers)
+log("post result" + res.status_code)
+newline()
 # output
 print(json.dumps({"version":{}}))
 

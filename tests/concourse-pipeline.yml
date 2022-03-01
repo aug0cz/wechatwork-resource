@@ -15,6 +15,7 @@ resources:
 jobs:
 - name: testing
   plan:
+  - get: notify
   - put: notify
     params:
       content: |
