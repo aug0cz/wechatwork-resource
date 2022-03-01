@@ -40,14 +40,14 @@ source = sys.argv[1]
 #   }
 # }
 payload = json.loads(data)
-log(json.dumps(payload))
-newline()
+# log(json.dumps(payload))
+# newline()
 
 payloadSource = payload["source"]
 payloadParams = payload["params"]
 
-host_addr = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" + payloadSource['key']
-
+host_addr = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" + str(payloadSource['key'])
+# print(host_addr)
 
 data = {
     "msgtype": "markdown",
@@ -59,9 +59,9 @@ headers = {
     'Content-Type': "application/json"
 }
 
-res = requests.post(host_addr, data, headers=headers)
-log("post result" + res.status_code)
-newline()
+res = requests.post(host_addr, json.dumps(data), headers=headers)
+# log("post result" + str(res.status_code))
+# newline()
 # output
 print(json.dumps({"version":{}}))
 
